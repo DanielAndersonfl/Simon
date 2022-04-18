@@ -11,12 +11,14 @@ class MyLayout(Widget):
     player_sequence = []
 
     player_turn = False
-    run_counter = 0
     run_var = None
+
+    score = 0
 
     play_sequence_counter = 0
     play_sequence_var = None
 
+    score_label = ObjectProperty(None)
     red_tile = ObjectProperty(None)
     green_tile = ObjectProperty(None)
     blue_tile = ObjectProperty(None)
@@ -158,7 +160,7 @@ class MyLayout(Widget):
 
         - adds a new tile to the sequence
         - plays the sequence to the player
-        - increments the run counter
+        - increments the score
         - empties the players previous guess
         - makes it the players turn
 
@@ -166,7 +168,7 @@ class MyLayout(Widget):
         '''
         self.add_tile_to_sequence()
         self.play_sequence()
-        self.run_counter += 1
+        self.increment_score()
         self.player_sequence = []
         self.player_turn = True
 
@@ -230,9 +232,34 @@ class MyLayout(Widget):
     def add_tile_to_sequence(self):
         '''
         adds the provided tile to the current sequence for the game.
+        
+        returns None
         '''
         self.color_sequence.append(self.random_tile())
 
+
+    def increment_score(self):
+        '''
+        Adds 1 to the score then calls update_score_label
+        
+        returns None
+        '''
+        self.score += 1
+        Clock.schedule_once(lambda _: self.update_score_label(), 0)
+
+        return None
+
+
+    def update_score_label(self):
+        '''
+        updates the score_label
+        
+        returns None
+        '''
+        self.score_label.text = str(self.score)
+
+        return None
+    
 
 class Simon(App):
     def build(self):
