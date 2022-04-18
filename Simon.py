@@ -109,7 +109,8 @@ class MyLayout(Widget):
 
 
     def play_sequence(self):
-        self.play_sequence_var = Clock.schedule_interval(lambda _: self._play_sequence(), 1)
+        self.play_sequence_var = Clock.schedule_interval(lambda _: 
+                                                    self._play_sequence(), 1)
 
 
     def _play_sequence(self):
@@ -117,23 +118,21 @@ class MyLayout(Widget):
             self.play_sequence_counter = 0
             Clock.unschedule(self.play_sequence_var)
         else: 
-            MyLayout.highlight_tile(self.color_sequence[self.play_sequence_counter])
+            MyLayout.highlight_tile(
+                            self.color_sequence[self.play_sequence_counter])
             self.play_sequence_counter += 1
         
 
     def highlight_tile(tile):
-        MyLayout.brighten_tile(tile)
-        Clock.schedule_once(lambda _: MyLayout.dim_tile(tile), 0.8)
+        MyLayout.adjust_brightness_tile(tile)
+        Clock.schedule_once(lambda _: 
+                            MyLayout.adjust_brightness_tile(tile, 0.5), 0.8)
 
 
-    def brighten_tile(tile, brightness_coefficient =2):
+    def adjust_brightness_tile(tile, brightness_coefficient =2):
         tile.background_color = [val * brightness_coefficient 
         for val in tile.background_color]
 
-
-    def dim_tile(tile, brightness_coefficient = (1/2)):
-        tile.background_color = [val * brightness_coefficient 
-        for val in tile.background_color]
 
 
     def random_tile(self):
