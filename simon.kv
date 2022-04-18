@@ -1,0 +1,64 @@
+#:kivy 1.0
+
+<MyLayout>
+    
+    red_tile: red_tile 
+    green_tile: green_tile
+    blue_tile: blue_tile
+    yellow_tile: yellow_tile
+    tile_grid: tile_grid
+
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+
+        GridLayout:
+            id: tile_grid
+            cols: 2
+            size_hint_y: 10
+
+            Button:
+                id: red_tile
+                background_color: (1, 0, 0)
+                on_press: root.player_clicks('red_tile')
+            Button:
+                id: green_tile
+                background_color: (0, 1, 0)
+                on_press: root.player_clicks('green_tile')
+            Button:
+                id: blue_tile
+                background_color: (0, 0, 1)
+                on_press: root.player_clicks('blue_tile')
+            Button:
+                id: yellow_tile
+                background_color: (1, 1, 0)
+                on_press: root.player_clicks('yellow_tile')
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 1
+
+            Button:
+                id: start_button
+                text: 'Start'
+                size_hint_x: 5
+                on_press: root.start()
+            
+            Button:
+                id: phase_indicator
+                size_hint_x: 1
+                background_color: (10, 0, 0)
+            
+            Label:
+                id: score_label
+                text: '0'
+                size_hint_x: 2
+
+                
+
+
+
+
+
