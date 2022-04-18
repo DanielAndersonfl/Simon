@@ -1,9 +1,16 @@
 from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
+
 
 import random
+
+
+class P(BoxLayout):
+    game_over_label = ObjectProperty(None)
 
 
 class MyLayout(Widget):
@@ -25,6 +32,18 @@ class MyLayout(Widget):
     yellow_tile = ObjectProperty(None)
     tile_grid = ObjectProperty(None)
 
+
+    def show_popup(self):
+        '''
+        Displays the end game popup after the game ends.
+        '''
+        show = P()
+        show.game_over_label.text = f'GAME OVER! FINAL SCORE:{str(self.score)}'
+
+        popupWindow = Popup(title='GAME OVER!', content=show, 
+        size_hint = (None, None), size = (300, 100))
+
+        popupWindow.open()
 
 
     def player_clicks(self, tile):
@@ -63,7 +82,6 @@ class MyLayout(Widget):
         The on_press function for the 'start' button, begins the game.
         '''
         self.run_game()
-
 
 
     def check_most_recent_guess(self):
@@ -113,7 +131,7 @@ class MyLayout(Widget):
 
         returns None
         '''
-        print('Incorrect! Good Game!')
+        self.show_popup()
         Clock.unschedule(self.run_var)
 
 
