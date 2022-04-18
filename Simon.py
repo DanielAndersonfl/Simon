@@ -28,9 +28,7 @@ class MyLayout(Widget):
     def player_clicks(self, tile):
         if self.player_turn:
             clicked_tile = self.get_clicked_tile(tile)
-
-            self.player_sequence.append(clicked_tile)
-            
+            self.player_sequence.append(clicked_tile)                       
         else:
             return None
 
@@ -52,6 +50,19 @@ class MyLayout(Widget):
         self.run_game()
 
 
+
+    def check_most_recent_guess(self):
+        index = len(self.player_sequence) - 1
+        if index >= 0:
+            if self.color_sequence[index] == self.player_sequence[index]:
+                return True
+            else:
+                return False
+        else:
+            return True
+
+
+
     def run_game(self):
         self.run_var = Clock.schedule_interval(lambda _: self._run_game(), 0)
     
@@ -63,15 +74,23 @@ class MyLayout(Widget):
             self._computers_turn()
             
     
+    def end_game(self):
+        print('Incorrect! Good Game!')
+        Clock.unschedule(self.run_var)
+
+
     def _players_turn(self):
         if len(self.player_sequence) >= len(self.color_sequence):
             if self._compare_sequences():
                 self.player_turn = False
             else:
-                print('Incorrect! Good Game!')
-                Clock.unschedule(self.run_var)
+                self.end_game()
         else:
-            pass
+            if self.check_most_recent_guess():
+                pass
+            else:
+                self.end_game()
+
 
 
     def _compare_sequences(self):
